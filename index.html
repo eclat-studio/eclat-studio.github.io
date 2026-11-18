@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<base target="_top">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Éclat | Creative Digital Studio</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Aref+Ruqaa:wght@400;700&family=Amiri:wght@400;700&family=Playfair+Display:wght@500;600&family=Cormorant+Garamond:wght@500;600&display=swap');
+
+:root{
+  --gold:#b8955a; --gold-2:#d9c08a; --gold-deep:#9a7a43;
+  --ink:#2a221b; --muted:#8a7f71; --cream:#f6f0e4; --paper:#fbf8f2;
+  --line:#e6dac5; --dark:#221b15;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:'Tajawal',sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased}
+body.lock{overflow:hidden}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+img{max-width:100%;display:block}
+.container{width:min(1120px,92%);margin:auto}
+.narrow{width:min(880px,92%);margin:auto}
+
+/* ---------- عناصر مشتركة ---------- */
+.caps{font-family:'Cormorant Garamond',serif;letter-spacing:.42em;font-size:13px;color:var(--gold-deep);text-transform:uppercase;margin:0;direction:ltr}
+.script{font-family:'Aref Ruqaa',serif;font-weight:700;margin:0;line-height:1.35;
+  background:linear-gradient(180deg,#e6d09a 0%,#bf9c5f 55%,#9f7c41 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.divider{display:flex;align-items:center;justify-content:center;gap:12px;color:var(--gold);margin:18px auto}
+.divider span{height:1px;width:min(130px,26vw);background:linear-gradient(90deg,transparent,var(--gold-2))}
+.divider span:last-child{background:linear-gradient(270deg,transparent,var(--gold-2))}
+.divider i{font-style:normal;font-size:11px;letter-spacing:6px}
+.title-block{text-align:center;margin-bottom:28px}
+.title-block .script{font-size:clamp(40px,9vw,58px)}
+.title-block p.sub{color:var(--muted);font-size:14px;margin:10px 0 0}
+
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 26px;border-radius:999px;border:1px solid var(--gold);
+  background:linear-gradient(180deg,#c9a96d,#a98846);color:#fff;font-size:14px;font-weight:700;transition:.2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 24px -12px #8a6a3099}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--gold-2)}
+.btn-ghost:hover{background:#fff}
+
+.chips{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:0 0 26px}
+.chip{background:transparent;border:1px solid var(--line);color:#6a5f52;border-radius:999px;padding:7px 16px;font-size:13px;transition:.2s}
+.chip.active,.chip:hover{background:var(--dark);border-color:var(--dark);color:#f3e7cf}
+
+/* ---------- الشريط العلوي ---------- */
+header{position:sticky;top:0;z-index:30;background:rgba(246,240,228,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav{min-height:68px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.logo{font-family:'Playfair Display',serif;font-size:28px;font-weight:600;color:var(--ink);direction:ltr;letter-spacing:1px}
+.logo span{color:var(--gold)}
+.nav-links{display:flex;gap:22px;font-size:14px;font-weight:500}
+.nav-links a:hover{color:var(--gold-deep)}
+
+/* ---------- البطاقة الرئيسية (الإطار الذهبي) ---------- */
+.hero{padding:34px 0 10px}
+.frame{position:relative;text-align:center;padding:60px 22px 52px;
+  background:radial-gradient(ellipse at 50% 22%,#f0e2c8 0%,rgba(240,226,200,0) 58%),var(--paper);
+  border:1.5px solid var(--gold-2);outline:1px solid var(--gold-2);outline-offset:-11px;
+  box-shadow:0 30px 60px -42px #6b512a80}
+.corner{position:absolute;width:56px;height:56px;color:var(--gold)}
+.corner.tl{top:4px;left:4px}
+.corner.tr{top:4px;right:4px;transform:scaleX(-1)}
+.corner.bl{bottom:4px;left:4px;transform:scaleY(-1)}
+.corner.br{bottom:4px;right:4px;transform:scale(-1,-1)}
+.crown{width:62px;margin:0 auto 18px}
+.brand{font-family:'Playfair Display',serif;font-weight:500;font-size:clamp(70px,17vw,128px);line-height:1;margin:14px 0 8px;direction:ltr;color:var(--ink)}
+.brand span{color:var(--gold)}
+.tagline{font-family:'Amiri',serif;font-size:clamp(20px,4.6vw,26px);margin:6px 0 0}
+.hero-text{max-width:560px;margin:4px auto 26px;color:var(--muted);font-size:15px;line-height:2}
+.hero-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
+
+/* ---------- قائمة الأسعار ---------- */
+.section{padding:70px 0}
+.price-list{list-style:none;margin:0;padding:0}
+.price-row a{display:flex;align-items:flex-end;gap:14px;padding:14px 6px;border-radius:8px;transition:.2s}
+.price-row a:hover{background:#fffaf0}
+.price-row.hidden{display:none}
+.num{font-family:'Cormorant Garamond',serif;font-size:19px;color:var(--gold);min-width:26px;padding-bottom:2px}
+.row-main{display:flex;flex-direction:column;line-height:1.45}
+.row-main small{color:var(--gold-deep);font-size:12px}
+.row-main strong{font-size:clamp(16px,3.8vw,20px);font-weight:800;white-space:nowrap}
+.dots{flex:1;border-bottom:2px dotted #d8cbb2;margin-bottom:9px;min-width:16px}
+.amount{display:flex;align-items:baseline;gap:5px;white-space:nowrap;color:var(--muted);font-size:12px}
+.amount b{font-size:22px;color:var(--ink);font-weight:800}
+
+/* الخدمة المميزة */
+.featured{margin-top:30px;border-radius:18px;padding:5px;background:linear-gradient(135deg,#d9c08a,#8f6f37,#d9c08a)}
+.featured-inner{display:flex;align-items:center;gap:18px;border-radius:14px;padding:24px 22px;
+  background:linear-gradient(135deg,#2c241c,#1b1510);border:1px solid #6b5636;color:#fff}
+.cap-icon{flex:none;width:68px;height:68px;border-radius:50%;border:1px solid var(--gold);display:grid;place-items:center;color:var(--gold-2)}
+.featured-text{flex:1}
+.badge{display:inline-block;background:linear-gradient(180deg,#e2c891,#b8955a);color:#2a2119;font-size:11px;font-weight:800;padding:3px 12px;border-radius:999px}
+.featured-text h3{margin:8px 0 2px;font-size:clamp(19px,4.4vw,25px);font-weight:800}
+.featured-text p{margin:0;color:#c9b48b;font-size:13px}
+.featured-price{text-align:center;color:#c9b48b;font-size:12px;line-height:1.2}
+.featured-price b{display:block;font-size:46px;font-weight:800;margin:4px 0;
+  background:linear-gradient(180deg,#f0dca8,#b8955a);-webkit-background-clip:text;background-clip:text;color:transparent}
+.featured-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.featured-actions .btn-ghost{color:#f1e4c8;border-color:#7d6640}
+.featured-actions .btn-ghost:hover{background:#ffffff12}
+
+/* ---------- الأعمال التفاعلية ---------- */
+.works-bg{background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.works-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.work-card{background:#fff;border:1px solid #eee5d6;border-radius:12px;overflow:hidden;cursor:pointer;transition:.25s;display:flex;flex-direction:column;text-align:right;padding:0;font:inherit;color:inherit}
+.work-card:hover,.work-card:focus-visible{transform:translateY(-5px);box-shadow:0 16px 34px -18px #4c3b1b55;outline:none}
+.work-card.hidden{display:none}
+.work-cover{position:relative;aspect-ratio:16/10;background:#efe6d6;overflow:hidden}
+.work-cover img{width:100%;height:100%;object-fit:cover;transition:.4s}
+.work-card:hover .work-cover img{transform:scale(1.04)}
+.cover-ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:18px;text-align:center;
+  background:radial-gradient(ellipse at 50% 0%,#f6ead2,#e7d8bd);color:#6b5636}
+.cover-ph .caps{font-size:10px;letter-spacing:.3em}
+.cover-ph strong{font-family:'Amiri',serif;font-size:22px;line-height:1.4}
+.live-badge{position:absolute;top:10px;right:10px;background:rgba(34,27,21,.85);color:#f1e4c8;font-size:11px;padding:3px 10px;border-radius:999px}
+.work-body{padding:16px 18px 18px;display:flex;flex-direction:column;flex:1}
+.work-body small{color:var(--gold-deep);font-size:11px}
+.work-body h3{margin:4px 0 6px;font-size:17px}
+.work-body p{margin:0 0 14px;color:var(--muted);font-size:13px;line-height:1.9;flex:1}
+.view-link{font-size:13px;font-weight:700;color:var(--gold-deep);border-bottom:1px solid var(--gold-2);align-self:flex-start}
+.empty{text-align:center;color:var(--muted);padding:30px 10px;border:1px dashed var(--line);border-radius:12px;background:#fff8}
+
+/* ---------- خطوات الطلب ---------- */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.step{text-align:center;background:#fff;border:1px solid #eee7db;padding:26px 16px;border-radius:10px}
+.step-number{font-family:'Cormorant Garamond',serif;color:var(--gold);font-size:34px;line-height:1}
+.step h3{font-size:16px;margin:10px 0 4px}
+.step p{font-size:13px;color:var(--muted);margin:0;line-height:1.9}
+
+/* ---------- من نحن + الأسئلة ---------- */
+.about{text-align:center;background:#efe6d6;padding:64px 0}
+.about h2{font-family:'Amiri',serif;font-size:30px;margin:10px 0}
+.about p{max-width:620px;margin:auto;color:#766c60;line-height:2.2;font-size:15px}
+.faq{max-width:760px;margin:auto}
+.faq details{background:#fff;padding:16px 20px;border:1px solid #eee8dd;margin-bottom:10px;border-radius:8px}
+.faq summary{cursor:pointer;font-size:14px;font-weight:700}
+.faq p{color:var(--muted);font-size:13px;line-height:2;margin:10px 0 0}
+
+/* ---------- التواصل ---------- */
+.contact{background:linear-gradient(160deg,#2c241c,#1b1510);color:#fff;text-align:center;padding:70px 0}
+.contact .caps{color:var(--gold-2)}
+.contact h2{font-family:'Amiri',serif;font-size:clamp(28px,6vw,38px);font-weight:700;margin:12px 0 6px}
+.contact p{color:#d0c3a9;font-size:14px;margin:0 0 26px}
+.phone-pill{display:inline-flex;align-items:center;gap:12px;background:var(--paper);color:var(--ink);border-radius:999px;padding:8px 10px 8px 24px;margin-bottom:18px;direction:ltr}
+.phone-pill b{font-family:'Cormorant Garamond',serif;font-size:26px;letter-spacing:2px;font-weight:600}
+.phone-pill i{width:38px;height:38px;border-radius:50%;background:var(--dark);display:grid;place-items:center;color:#fff}
+.contact-actions{display:flex;justify-content:center}
+
+footer{text-align:center;padding:46px 0 30px}
+footer .script{font-size:clamp(30px,7vw,40px)}
+footer .caps{margin-top:6px}
+footer small{display:block;color:var(--muted);font-size:11px;margin-top:16px}
+
+/* ---------- نافذة عرض العمل ---------- */
+.viewer{position:fixed;inset:0;z-index:100;background:rgba(20,15,10,.82);display:none;flex-direction:column;padding:14px}
+.viewer.open{display:flex}
+.viewer-box{flex:1;display:flex;flex-direction:column;background:var(--paper);border-radius:14px;overflow:hidden;max-width:1200px;width:100%;margin:auto;height:100%}
+.viewer-bar{display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--line);background:#fff}
+.viewer-title{flex:1;min-width:0;line-height:1.4}
+.viewer-title small{color:var(--gold-deep);font-size:11px;display:block}
+.viewer-title strong{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:15px}
+.icon-btn{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:#fff;font-size:18px;display:grid;place-items:center;color:var(--ink)}
+.open-new{font-size:12px;font-weight:700;padding:8px 14px;border-radius:999px;border:1px solid var(--gold-2);color:var(--gold-deep);white-space:nowrap}
+.viewer-frame{position:relative;flex:1;background:#f1ebe0}
+.viewer-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff}
+.viewer-loading{position:absolute;inset:0;display:grid;place-items:center;color:var(--muted);font-size:13px;text-align:center;padding:20px}
+.viewer-hint{font-size:11px;color:var(--muted);text-align:center;padding:6px 10px;margin:0;border-top:1px solid var(--line)}
+
+@media (max-width:900px){ .works-grid{grid-template-columns:repeat(2,1fr)} }
+@media (max-width:640px){
+  .nav-links{gap:14px;font-size:12.5px}
+  .nav-links a.hide-sm{display:none}
+  .logo{font-size:24px}
+  .frame{padding:52px 16px 44px;outline-offset:-8px}
+  .corner{width:42px;height:42px}
+  .section{padding:54px 0}
+  .works-grid,.steps{grid-template-columns:1fr}
+  .price-row a{gap:9px;padding:12px 2px}
+  .row-main strong{white-space:normal}
+  .amount small.from{display:none}
+  .featured-inner{flex-wrap:wrap;justify-content:center;text-align:center}
+  .featured-text{flex-basis:100%}
+  .featured-actions{justify-content:center}
+  .viewer{padding:0}
+  .viewer-box{border-radius:0}
+  .open-new span{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- زخرفة الزوايا -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="corner" viewBox="0 0 60 60">
+    <path d="M4 4H44M4 4V44" fill="none" stroke="currentColor" stroke-width="1.4"/>
+    <path d="M12 12c11-3 20 2 24 11-10 3-20-1-24-11z" fill="none" stroke="currentColor" stroke-width="1.2"/>
+    <path d="M12 12l18 8" stroke="currentColor" stroke-width=".9"/>
+    <circle cx="44" cy="4" r="2" fill="currentColor"/><circle cx="4" cy="44" r="2" fill="currentColor"/>
+  </symbol>
+</svg>
+
+<header>
+  <div class="container nav">
+    <a href="#home" class="logo" data-scroll>Éclat<span>.</span></a>
+    <nav class="nav-links">
+      <a href="#prices" data-scroll>الأسعار</a>
+      <a href="#works" data-scroll>أعمالي</a>
+      <a href="#steps" data-scroll class="hide-sm">طريقة الطلب</a>
+      <a href="#contact" data-scroll>تواصلي معنا</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<section class="hero" id="home">
+  <div class="narrow">
+    <div class="frame">
+      <svg class="corner tl"><use href="#corner"/></svg>
+      <svg class="corner tr"><use href="#corner"/></svg>
+      <svg class="corner bl"><use href="#corner"/></svg>
+      <svg class="corner br"><use href="#corner"/></svg>
+
+      <svg class="crown" viewBox="0 0 64 42" aria-hidden="true">
+        <path d="M7 31L4 9l15 11L32 5l13 15L60 9l-3 22z" fill="none" stroke="#b8955a" stroke-width="2" stroke-linejoin="round"/>
+        <path d="M8 37h48" stroke="#b8955a" stroke-width="2"/>
+        <circle cx="32" cy="23" r="2.4" fill="#b8955a"/>
+      </svg>
+      <p class="caps">Creative Digital Studio</p>
+      <h1 class="brand">Éclat<span>.</span></h1>
+      <p class="tagline">حيث تحوّل الأفكار إلى تفاصيل استثنائية</p>
+      <div class="divider"><span></span><i>•◇•</i><span></span></div>
+      <p class="hero-text">نصمم لك تجارب رقمية تجمع بين الإبداع والأناقة، من المشاريع التعليمية إلى التصاميم التجارية والشخصية، نهتم بكل تفصيلة لتظهر فكرتك بأجمل صورة.</p>
+      <div class="hero-actions">
+        <a class="btn" href="#prices" data-scroll>قائمة الأسعار</a>
+        <a class="btn btn-ghost" href="#works" data-scroll>تصفحي أعمالي</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="prices">
+  <div class="narrow">
+    <div class="title-block">
+      <div class="divider"><span></span><i>•◇•</i><span></span></div>
+      <h2 class="script">قائمة الأسعار</h2>
+      <p class="caps">Price List</p>
+    </div>
+
+    <div class="chips" id="priceChips"></div>
+    <ol class="price-list" id="priceList"></ol>
+
+    <div class="featured" id="teachersCard">
+      <div class="featured-inner">
+        <div class="cap-icon" aria-hidden="true">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2.5 9 2.5 12 0v-5"/><path d="M22 9v6"/></svg>
+        </div>
+        <div class="featured-text">
+          <span class="badge">خدمة مميزة</span>
+          <h3>خدمات المعلمين والمعلمات</h3>
+          <p>حسب الطلب – خطط علاجية، منصات تكريم، ملفات وأدوات تفاعلية</p>
+          <div class="featured-actions">
+            <a class="btn" id="teachersOrder" target="_blank" rel="noopener">اطلبي الآن</a>
+            <button class="btn btn-ghost" id="teachersWorksBtn" type="button">تصفحي النماذج</button>
+          </div>
+        </div>
+        <div class="featured-price">ابتداءً من <b>180</b> ر.س</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section works-bg" id="works">
+  <div class="container">
+    <div class="title-block">
+      <h2 class="script">أعمالي التفاعلية</h2>
+      <p class="caps">Interactive Portfolio</p>
+      <p class="sub">اضغطي على أي عمل وتصفحيه كأنك تستخدمينه.</p>
+    </div>
+    <div class="chips" id="workChips"></div>
+    <div class="works-grid" id="worksGrid"></div>
+  </div>
+</section>
+
+<section class="section" id="steps">
+  <div class="container">
+    <div class="title-block">
+      <h2 class="script">طريقة الطلب</h2>
+      <p class="caps">How to Order</p>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="step-number">01</div><h3>اختاري الخدمة</h3><p>تصفحي الخدمات وحددي التصميم الذي تحتاجينه.</p></div>
+      <div class="step"><div class="step-number">02</div><h3>أرسلي التفاصيل</h3><p>تواصلي معنا وأرسلي المتطلبات والأفكار والمحتوى.</p></div>
+      <div class="step"><div class="step-number">03</div><h3>استلمي تصميمك</h3><p>بعد الاتفاق على التفاصيل والسعر نبدأ بتنفيذ طلبك.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="about">
+  <div class="container">
+    <p class="caps">About Éclat</p>
+    <h2>الجمال يكمن في التفاصيل</h2>
+    <p>Éclat مساحة إبداعية تهتم بتحويل الأفكار إلى تصاميم رقمية تجمع بين البساطة والأناقة والاهتمام بالتفاصيل. نؤمن أن لكل فكرة طابعًا خاصًا يستحق أن يظهر بطريقة مختلفة.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="title-block">
+      <h2 class="script">الأسئلة الشائعة</h2>
+      <p class="caps">FAQ</p>
+    </div>
+    <div class="faq">
+      <details><summary>هل يمكن طلب تصميم خاص غير موجود بالقائمة؟</summary><p>نعم، يمكنك التواصل معنا وشرح فكرتك لنحدد إمكانية تنفيذها.</p></details>
+      <details><summary>هل الأسعار ثابتة؟</summary><p>الأسعار المعروضة تبدأ من المبالغ المذكورة، وقد تختلف حسب عدد الصفحات والتفاصيل المطلوبة.</p></details>
+      <details><summary>كيف أستلم التصميم؟</summary><p>يتم الاتفاق على صيغة التسليم المناسبة للخدمة، مثل PDF أو PowerPoint أو الصور أو رابط تفاعلي.</p></details>
+      <details><summary>هل الأعمال المعروضة حقيقية؟</summary><p>نعم، قسم "أعمالي التفاعلية" يعرض نماذج من أعمال منفذة يمكنك تصفحها مباشرة.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="container">
+    <p class="caps">Let's Create Something Beautiful</p>
+    <h2>لديك فكرة؟ لنبدأ بها.</h2>
+    <p>للطلب والتواصل، يسعدنا استقبال طلبك ومساعدتك في تحويل فكرتك إلى تصميم مميز.</p>
+    <a class="phone-pill" id="phoneLink">
+      <i aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8a15.1 15.1 0 006.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 013 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z"/></svg></i>
+      <b id="phoneText"></b>
+    </a>
+    <div class="contact-actions">
+      <a class="btn" id="waMain" target="_blank" rel="noopener">تواصلي عبر واتساب</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <h2 class="script">الجمال يكمن في التفاصيل</h2>
+  <p class="caps">Éclat Studio</p>
+  <small>© 2026 Éclat Creative Digital Studio – All Rights Reserved</small>
+</footer>
+
+<!-- نافذة تصفح العمل -->
+<div class="viewer" id="viewer" role="dialog" aria-modal="true" aria-labelledby="viewerTitle">
+  <div class="viewer-box">
+    <div class="viewer-bar">
+      <button class="icon-btn" id="viewerClose" type="button" aria-label="إغلاق">×</button>
+      <div class="viewer-title"><small id="viewerCat"></small><strong id="viewerTitle"></strong></div>
+      <a class="open-new" id="viewerOpen" target="_blank" rel="noopener">↗ <span>فتح في صفحة جديدة</span></a>
+    </div>
+    <div class="viewer-frame">
+      <div class="viewer-loading">جاري تحميل العمل…</div>
+      <iframe id="viewerFrame" title="عرض العمل" allow="fullscreen; autoplay; clipboard-write" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+    </div>
+    <p class="viewer-hint">إذا لم يظهر العمل هنا، اضغطي "فتح في صفحة جديدة".</p>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ===== رقم التواصل (من الإعلان: 055 375 9968) ===== */
+  var WHATSAPP_NUMBER = '966553759968';
+  var PHONE_DISPLAY  = '055 375 9968';
+
+  var API_URL = 'https://script.google.com/macros/s/AKfycbza0rslOytvasZWPzFbiYxnz6Bmt0BwLq9ehCRT15dNysdGIcwJuvKCaLQ4lMSVeAzb5A/exec';
+  var CATEGORIES = [
+    { id:'teachers',   name:'خدمات المعلمين والمعلمات' },
+    { id:'education',  name:'التعليم والمدارس' },
+    { id:'university', name:'الخدمات الجامعية' },
+    { id:'business',   name:'المشاريع التجارية' },
+    { id:'creative',   name:'التصميم الإبداعي' },
+    { id:'digital',    name:'الخدمات الرقمية' },
+    { id:'gifts',      name:'الهدايا والمناسبات' }
+  ];
+  var WORKS = [];
+
+  /* ===== قائمة الأسعار (مطابقة للإعلان) ===== */
+  var SERVICES = [
+    { n:'01', t:'ملفات الإنجاز الإلكترونية', c:'education',  p:45  },
+    { n:'02', t:'ملفات إنجاز المعلمات',      c:'education',  p:100 },
+    { n:'03', t:'أوراق العمل والاختبارات',   c:'education',  p:15  },
+    { n:'04', t:'عروض PowerPoint',           c:'university', p:55  },
+    { n:'05', t:'السيرة الذاتية CV',         c:'university', p:30  },
+    { n:'06', t:'تنسيق التقارير والمشاريع',  c:'university', p:35  },
+    { n:'07', t:'هوية بصرية للمشاريع',       c:'business',   p:80  },
+    { n:'08', t:'منشورات السوشيال ميديا',    c:'creative',   p:20  },
+    { n:'09', t:'النماذج الإلكترونية وQR',   c:'digital',    p:20  },
+    { n:'10', t:'بطاقات الشكر والتوزيعات',   c:'gifts',      p:15  }
+  ];
+
+  function catName(id) {
+    for (var i = 0; i < CATEGORIES.length; i++) if (CATEGORIES[i].id === id) return CATEGORIES[i].name;
+    return '';
+  }
+  function wa(text) { return 'https://wa.me/' + WHATSAPP_NUMBER + (text ? '?text=' + encodeURIComponent(text) : ''); }
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text;
+    return n;
+  }
+  function makeChips(box, ids, onPick) {
+    box.innerHTML = '';
+    var all = [{ id:'all', name:'الكل' }].concat(ids.map(function (id) { return { id:id, name:catName(id) }; }));
+    all.forEach(function (c, i) {
+      var b = el('button', 'chip' + (i === 0 ? ' active' : ''), c.name);
+      b.type = 'button';
+      b.dataset.filter = c.id;
+      b.addEventListener('click', function () { setActive(box, c.id); onPick(c.id); });
+      box.appendChild(b);
+    });
+  }
+  function setActive(box, id) {
+    Array.prototype.forEach.call(box.children, function (b) { b.classList.toggle('active', b.dataset.filter === id); });
+  }
+  function uniq(arr) { return arr.filter(function (v, i) { return arr.indexOf(v) === i; }); }
+
+  /* ===== رسم قائمة الأسعار ===== */
+  var priceList = document.getElementById('priceList');
+  SERVICES.forEach(function (s) {
+    var li = el('li', 'price-row');
+    li.dataset.category = s.c;
+    var a = el('a');
+    a.href = wa('مرحبًا Éclat، أبغى أطلب: ' + s.t);
+    a.target = '_blank'; a.rel = 'noopener';
+    a.appendChild(el('span', 'num', s.n));
+    var main = el('span', 'row-main');
+    main.appendChild(el('small', null, catName(s.c)));
+    main.appendChild(el('strong', null, s.t));
+    a.appendChild(main);
+    a.appendChild(el('span', 'dots'));
+    var amt = el('span', 'amount');
+    amt.appendChild(el('small', 'from', 'ابتداءً من'));
+    amt.appendChild(el('b', null, String(s.p)));
+    amt.appendChild(el('small', null, 'ر.س'));
+    a.appendChild(amt);
+    li.appendChild(a);
+    priceList.appendChild(li);
+  });
+
+  var priceChipIds = uniq(SERVICES.map(function (s) { return s.c; }));
+  makeChips(document.getElementById('priceChips'), priceChipIds, function (f) {
+    Array.prototype.forEach.call(priceList.children, function (li) {
+      li.classList.toggle('hidden', !(f === 'all' || li.dataset.category === f));
+    });
+  });
+
+  /* ===== الأعمال التفاعلية ===== */
+  function googleId(url) {
+    var m = url.match(/\/d\/(?:e\/)?([a-zA-Z0-9_-]{20,})/) || url.match(/[?&]id=([a-zA-Z0-9_-]{20,})/);
+    return m ? m[1] : null;
+  }
+  function coverFor(w) {
+    var c = (w.cover || '').trim();
+    if (c) {
+      if (/drive\.google\.com/.test(c)) { var cid = googleId(c); if (cid) return 'https://drive.google.com/thumbnail?id=' + cid + '&sz=w1000'; }
+      return c;
+    }
+    if (/(docs|drive)\.google\.com/.test(w.url) && !/\/forms\//.test(w.url)) {
+      var id = googleId(w.url);
+      if (id) return 'https://drive.google.com/thumbnail?id=' + id + '&sz=w1000';
+    }
+    return '';
+  }
+  function toEmbed(url) {
+    try {
+      var u = new URL(url), h = u.hostname, m;
+      if (h === 'docs.google.com') {
+        if ((m = u.pathname.match(/^\/presentation\/d\/([^/]+)/))) return 'https://docs.google.com/presentation/d/' + m[1] + '/embed';
+        if ((m = u.pathname.match(/^\/(document|spreadsheets)\/d\/([^/]+)/))) return 'https://docs.google.com/' + m[1] + '/d/' + m[2] + '/preview';
+        if ((m = u.pathname.match(/^\/forms\/d\/e\/([^/]+)/))) return 'https://docs.google.com/forms/d/e/' + m[1] + '/viewform?embedded=true';
+      }
+      if (h === 'drive.google.com' && (m = u.pathname.match(/\/file\/d\/([^/]+)/))) return 'https://drive.google.com/file/d/' + m[1] + '/preview';
+      if (/(^|\.)canva\.com$/.test(h) && /\/design\//.test(u.pathname)) {
+        u.pathname = u.pathname.replace(/\/edit\/?$/, '/view'); u.search = '?embed'; return u.toString();
+      }
+      if (/(^|\.)youtube\.com$/.test(h) && u.searchParams.get('v')) return 'https://www.youtube.com/embed/' + u.searchParams.get('v');
+      if (h === 'youtu.be') return 'https://www.youtube.com/embed/' + u.pathname.slice(1);
+      return url;
+    } catch (e) { return url; }
+  }
+
+  var grid = document.getElementById('worksGrid');
+  var workChips = document.getElementById('workChips');
+
+  function placeholder(w) {
+    var ph = el('div', 'cover-ph');
+    ph.appendChild(el('span', 'caps', 'Éclat Studio'));
+    ph.appendChild(el('strong', null, w.title));
+    return ph;
+  }
+
+  function renderWorks() {
+    grid.innerHTML = '';
+    if (!WORKS.length) {
+      workChips.style.display = 'none';
+      grid.style.display = 'block';
+      grid.appendChild(el('div', 'empty', 'قريبًا نضيف هنا نماذج تفاعلية من أعمالنا ✨'));
+      return;
+    }
+    workChips.style.display = '';
+    grid.style.display = '';
+    WORKS.forEach(function (w) {
+      var card = el('button', 'work-card');
+      card.type = 'button';
+      card.dataset.category = w.category;
+      var cov = el('div', 'work-cover');
+      var src = coverFor(w);
+      if (src) {
+        var img = document.createElement('img');
+        img.loading = 'lazy'; img.alt = w.title; img.src = src;
+        img.referrerPolicy = 'no-referrer';
+        img.onerror = function () { img.remove(); cov.insertBefore(placeholder(w), cov.firstChild); };
+        cov.appendChild(img);
+      } else {
+        cov.appendChild(placeholder(w));
+      }
+      cov.appendChild(el('span', 'live-badge', 'تفاعلي'));
+      card.appendChild(cov);
+      var body = el('div', 'work-body');
+      body.appendChild(el('small', null, catName(w.category)));
+      body.appendChild(el('h3', null, w.title));
+      body.appendChild(el('p', null, w.description || ''));
+      body.appendChild(el('span', 'view-link', 'تصفحي العمل ←'));
+      card.appendChild(body);
+      card.addEventListener('click', function () { openViewer(w); });
+      grid.appendChild(card);
+    });
+    var ids = CATEGORIES.map(function (c) { return c.id; })
+      .filter(function (id) { return WORKS.some(function (w) { return w.category === id; }); });
+    makeChips(workChips, ids, filterWorks);
+  }
+
+  function filterWorks(f) {
+    Array.prototype.forEach.call(grid.children, function (c) {
+      if (c.dataset.category) c.classList.toggle('hidden', !(f === 'all' || c.dataset.category === f));
+    });
+  }
+
+  fetch(API_URL + '?api=works')
+    .then(function (r) { return r.json(); })
+    .then(function (d) { WORKS = d.works || []; renderWorks(); })
+    .catch(function () { renderWorks(); });
+
+  /* ===== نافذة العرض ===== */
+  var viewer = document.getElementById('viewer');
+  var frame = document.getElementById('viewerFrame');
+
+  function openViewer(w) {
+    document.getElementById('viewerTitle').textContent = w.title;
+    document.getElementById('viewerCat').textContent = catName(w.category);
+    document.getElementById('viewerOpen').href = w.url;
+    frame.src = toEmbed(w.url);
+    viewer.classList.add('open');
+    document.body.classList.add('lock');
+    document.getElementById('viewerClose').focus();
+  }
+  function closeViewer() {
+    viewer.classList.remove('open');
+    document.body.classList.remove('lock');
+    frame.src = 'about:blank';
+  }
+  document.getElementById('viewerClose').addEventListener('click', closeViewer);
+  viewer.addEventListener('click', function (e) { if (e.target === viewer) closeViewer(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && viewer.classList.contains('open')) closeViewer(); });
+
+  /* ===== التنقل والتواصل ===== */
+  function scrollToId(id) {
+    var t = document.getElementById(id);
+    if (t) window.scrollTo({ top: t.getBoundingClientRect().top + window.pageYOffset - 70, behavior: 'smooth' });
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('[data-scroll]'), function (a) {
+    a.addEventListener('click', function (e) { e.preventDefault(); scrollToId(a.getAttribute('href').slice(1)); });
+  });
+
+  document.getElementById('teachersWorksBtn').addEventListener('click', function () {
+    scrollToId('works');
+    if (WORKS.some(function (w) { return w.category === 'teachers'; })) {
+      setActive(workChips, 'teachers'); filterWorks('teachers');
+    }
+  });
+  document.getElementById('teachersOrder').href = wa('مرحبًا Éclat، أبغى أطلب: خدمات المعلمين والمعلمات');
+  document.getElementById('waMain').href = wa('مرحبًا Éclat، عندي فكرة وأبغى أطلب تصميم');
+  document.getElementById('phoneText').textContent = PHONE_DISPLAY;
+  document.getElementById('phoneLink').href = 'tel:+' + WHATSAPP_NUMBER;
+})();
+</script>
+</body>
+</html>
